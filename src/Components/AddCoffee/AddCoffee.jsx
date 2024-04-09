@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2'
 
 const AddCoffee = () => {
     const handleAddCoffee = e => {
@@ -12,6 +13,28 @@ const AddCoffee = () => {
         const photo = e.target.photo.value;
         const newCoffee = { name, quantity, supplier, taste, category, details, photo }
         console.log(newCoffee);
+
+        // send data to the server
+        fetch('http://localhost:5000/coffee', {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newCoffee)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.insertedId) {
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "new coffee added successfully!",
+                        icon: "success"
+                    });
+                    data.reset();
+                }
+
+            })
     }
     return (
         <div className='w-11/12 mx-auto px-16 bg-[#F4F3F0]'>
@@ -25,13 +48,13 @@ const AddCoffee = () => {
                 <div className='flex gap-9 mb-6'>
                     <div className='form-control md:w-1/2'>
                         <label className='label'>
-                            <span className='label-text'>Name</span> <br />
+                            <span className='label-text font-bold'>Name</span> <br />
                         </label>
                         <input className="input input-bordered w-full" name='name' placeholder="Enter coffee name" />
                     </div>
                     <div className='form-control md:w-1/2'>
                         <label className='label'>
-                            <span className='label-text'>Available quantity</span> <br />
+                            <span className='label-text font-bold'>Available quantity</span> <br />
                         </label>
                         <input className="input input-bordered w-full" name='quantity' placeholder="Available quantity" />
                     </div>
@@ -40,13 +63,13 @@ const AddCoffee = () => {
                 <div className='flex gap-9 mb-6'>
                     <div className='form-control md:w-1/2'>
                         <label className='label'>
-                            <span className='label-text'>Supplier</span> <br />
+                            <span className='label-text font-bold'>Supplier</span> <br />
                         </label>
                         <input className="input input-bordered w-full" name='supplier' placeholder="Enter coffee supplier" />
                     </div>
                     <div className='form-control md:w-1/2'>
                         <label className='label'>
-                            <span className='label-text'>Taste</span> <br />
+                            <span className='label-text font-bold'>Taste</span> <br />
                         </label>
                         <input className="input input-bordered w-full" name='taste' placeholder="Enter coffee taste" />
                     </div>
@@ -55,13 +78,13 @@ const AddCoffee = () => {
                 <div className='flex gap-9 mb-6'>
                     <div className='form-control md:w-1/2'>
                         <label className='label'>
-                            <span className='label-text'>Category</span> <br />
+                            <span className='label-text font-bold'>Category</span> <br />
                         </label>
                         <input className="input input-bordered w-full" name='category' placeholder="Enter coffee category" />
                     </div>
                     <div className='form-control md:w-1/2'>
                         <label className='label'>
-                            <span className='label-text'>Available quantity</span> <br />
+                            <span className='label-text font-bold'>Details</span> <br />
                         </label>
                         <input className="input input-bordered w-full" name='details' placeholder="Enter coffee details" />
                     </div>
@@ -69,7 +92,7 @@ const AddCoffee = () => {
                 {/* Photo */}
                 <div className='form-control mb-6'>
                     <label className='label'>
-                        <span className='label-text'>Photo</span> <br />
+                        <span className='label-text font-bold'>Photo</span> <br />
                     </label>
                     <input className="input input-bordered w-full" name='photo' placeholder="Enter photo URL" />
                 </div>

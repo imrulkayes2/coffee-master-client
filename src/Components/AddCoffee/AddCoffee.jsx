@@ -31,7 +31,6 @@ const AddCoffee = () => {
                         text: "new coffee added successfully!",
                         icon: "success"
                     });
-                    data.reset();
                 }
 
             })

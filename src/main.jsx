@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import AddCoffee from './Components/AddCoffee/AddCoffee.jsx';
 import UpdateCoffee from './Components/UpdateCoffee/UpdateCoffee.jsx';
+import SignUp from './Components/SignUp/SignUp.jsx';
+import SignIn from './Components/SignIn/SignIn.jsx';
 
 
 const router = createBrowserRouter([
@@ -15,6 +17,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <App></App>,
     loader: () => fetch('http://localhost:5000/coffee')
+  },
+  {
+    path: "/signup",
+    element: <SignUp></SignUp>
+  },
+  {
+    path: "/signin",
+    element: <SignIn></SignIn>
   },
   {
     path: "addCoffee",

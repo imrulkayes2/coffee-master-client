@@ -1,13 +1,42 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
+    const { createUser, loading } = useContext(AuthContext)
     const handleSignUp = e => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
+        createUser(email, password)
+            .then(result => {
+                console.log(result.user);
+                const createdAt = result?.user?.metadata?.creationTime;
+                const user = { email, createdAt }
+                fetch('http://localhost:5000/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.insertedId) {
+                            Swal.fire({
+                                title: "Good job!",
+                                text: "new user added successfully!",
+                                icon: "success"
+                            });
+                        }
+                    });
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
     return (
         <div className="hero min-h-screen bg-base-200">

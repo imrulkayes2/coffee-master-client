@@ -12,6 +12,7 @@ import SignUp from './Components/SignUp/SignUp.jsx';
 import SignIn from './Components/SignIn/SignIn.jsx';
 import AuthProvider from './Components/AuthProvider/AuthProvider.jsx';
 import Users from './Components/Users/Users.jsx';
+import UpdateUser from './Components/UpdateUser/UpdateUser.jsx';
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <SignIn></SignIn>
+  },
+  {
+    path: '/updateuser',
+    element: <UpdateUser></UpdateUser>
   },
   {
     path: '/users',

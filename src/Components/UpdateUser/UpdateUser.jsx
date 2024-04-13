@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import { Link } from 'react-router-dom';
 
-const SignIn = () => {
+const UpdateUser = () => {
     const { signInUser } = useContext(AuthContext);
-    const handleLogIn = e => {
+    const handleUpdate = e => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
@@ -13,6 +13,21 @@ const SignIn = () => {
         signInUser(email, password)
             .then(result => {
                 console.log(result.user);
+                const user = {
+                    email,
+                    lastLogedAt: result.user?.metadata?.lastSignInTime
+                }
+                fetch('http://localhost:5000/users', {
+                    method: 'PATCH',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    })
             })
             .catch(error => {
                 console.error(error.message);
@@ -22,10 +37,10 @@ const SignIn = () => {
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col">
                 <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">LogIn Now!</h1>
+                    <h1 className="text-5xl font-bold">Update Now!</h1>
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <form onSubmit={handleLogIn} className="card-body">
+                    <form onSubmit={handleUpdate} className="card-body">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -42,7 +57,7 @@ const SignIn = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button type='submit' className="btn btn-primary">Log In</button>
+                            <button type='submit' className="btn btn-primary">Update </button>
                             <p>New User? PLease <Link to="/signup" className='text-red-400' >Register</Link></p>
                         </div>
                     </form>
@@ -52,4 +67,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default UpdateUser;
